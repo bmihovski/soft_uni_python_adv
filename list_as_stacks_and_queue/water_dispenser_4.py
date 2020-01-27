@@ -13,16 +13,18 @@ def dispence():
             break
         clients.append(user_input)
     while clients:
+        command = input()
+        if command.startswith("refill"):
+            liters += int(command.split()[1])
+            continue
         person = clients.popleft()
-        person_liters = int(input())
-        if person_liters >= liters:
+        person_liters = int(command)
+        if person_liters < liters:
             print(f'{person} got water')
-            liters -= int(user_input)
         else:
+            liters -= person_liters
             print(f'{person} must wait')
-    if user_input.startswith("refill"):
-        liters_to_refill = int(user_input.split())
-        liters += liters_to_refill
-        print(f'{liters} liters left')
+
+    print(f'{liters} liters left')
 
 dispence()
