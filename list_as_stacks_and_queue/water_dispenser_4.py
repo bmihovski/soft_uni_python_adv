@@ -19,11 +19,11 @@ def dispence():
             continue
         person = clients.popleft()
         person_liters = int(command)
-        if person_liters < liters:
-            print(f'{person} got water')
+        if liters < person_liters:
+            print(f'{person} must wait')
         else:
             liters -= person_liters
-            print(f'{person} must wait')
+            print(f'{person} got water')
 
     print(f'{liters} liters left')
 
