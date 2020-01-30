@@ -8,13 +8,10 @@ def potato(people, n):
     while players:
         user_to_remove = players.popleft()
         index += 1
-        if index == n:
+        if index % n == 0:
             index = 0
             if players:
                 print(f"Removed {user_to_remove}")
-                n = n % len(players)
-                if n == 0:
-                    n = len(players)
             else:
                 print(f"Last is {user_to_remove}")
         else:
