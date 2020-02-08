@@ -13,7 +13,7 @@ def calculate_sum(matrix, rows_count, column_count):
                           matrix[row + 2][col] + \
                           matrix[row + 2][col + 1] + \
                           matrix[row + 2][col + 2]
-                if max_sum <= sum_3_3:
+                if max_sum < sum_3_3:
                     max_sum = sum_3_3
                     first_row = f"{matrix[row][col]} {matrix[row][col + 1]} {matrix[row][col + 2]}"
                     second_row = f"{matrix[row + 1][col]} {matrix[row + 1][col + 1]} {matrix[row + 1][col + 2]}"
