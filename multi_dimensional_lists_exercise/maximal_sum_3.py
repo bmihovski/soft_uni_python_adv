@@ -1,5 +1,8 @@
+from sys import maxsize
+
+
 def calculate_sum(matrix, rows_count, column_count):
-    max_sum = 0
+    max_sum = -maxsize
     max_matrix = []
     for row in range(rows_count):
         for col in range(column_count):
