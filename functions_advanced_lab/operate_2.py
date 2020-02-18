@@ -11,3 +11,5 @@ def operate(operator, *args):
 
     return reduce(op[operator], args)
 
+print(operate("+", 1, 2, 3))
+print(operate("*", 3, 4))
