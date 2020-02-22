@@ -42,10 +42,10 @@ while True:
         create_file(file_name)
         continue
     if command_name == "Add":
-        append_to_file(file_name, user_inputs_parsed[2])
+        append_to_file(file_name, *user_inputs_parsed[2:])
         continue
     if command_name == "Replace":
-        replace_file_content(file_name, user_inputs_parsed[2], user_inputs_parsed[3])
+        replace_file_content(file_name, *user_inputs_parsed[2:])
         continue
     if command_name == "Delete":
         delete_file(file_name)
