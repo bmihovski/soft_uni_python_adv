@@ -4,16 +4,15 @@ class Account:
         self.name = name
         self.balance = balance
 
-    def credit(self, ammount: int):
-        self.balance += ammount
+    def credit(self, amount: int):
+        self.balance += amount
         return self.balance
 
-    def debit(self, ammount: int):
-        if ammount <= self.balance:
-            self.balance -= ammount
-            return self.balance
-        else:
-            return f"Amount exceeded balance"
+    def debit(self, amount: int):
+        if amount >= self.balance:
+            return "Amount exceeded balance"
+        self.balance -= amount
+        return self.balance
 
     def info(self):
         return f"User {self.name} with account {self.id} has {self.balance} balance"

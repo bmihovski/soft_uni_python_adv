@@ -17,18 +17,18 @@ class Time:
         return f"{self.hours:02d}:{self.minutes:02d}:{self.seconds:02d}"
 
     def next_second(self):
-        if self.seconds == self.max_seconds - 1 or self.seconds == self.max_seconds:
+        if self.seconds == Time.max_seconds - 1 or self.seconds == Time.max_seconds:
             self.seconds = 0
-            if self.minutes == self.max_minutes - 1 or self.minutes >= self.max_minutes:
-                self.minutes = 0
-                self.hours += 1
-            else:
-                self.minutes += 1
-            if self.hours == self.max_hours - 1 or self.hours >= self.max_hours:
-                self.hours = 0
-            elif self.hours >= self.max_hours:
-                self.hours = 1
+            self.minutes += 1
+        else:
+            self.seconds += 1
+        if self.minutes >= Time.max_minutes:
+            self.minutes = 0
+            self.hours += 1
+        if self.hours > Time.max_hours:
+            self.hours = 0
         return self.get_time()
+
 
 time: Time = Time(9, 30, 60)
 print(time.next_second())
@@ -38,5 +38,9 @@ time: Time = Time(24, 59, 59)
 print(time.next_second())
 time: Time = Time(5, 60, 60)
 print(time.next_second())
-time: Time = Time(23, 59, 59)
+time: Time = Time(1, 59, 59)
+print(time.next_second())
+time: Time = Time(23, 59, 9)
+print(time.next_second())
+time: Time = Time(24, 59, 59)
 print(time.next_second())
