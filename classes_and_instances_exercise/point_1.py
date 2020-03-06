@@ -12,8 +12,8 @@ class Point:
     def set_y(self, new_y: int):
         self.y = new_y
 
-    def distance(self, targer_x: int, target_y: int):
-        result = sqrt(((self.x - targer_x) ** 2) + ((self.y - target_y) ** 2))
+    def distance(self, other_x: int, other_y: int):
+        result = sqrt(((self.x - other_x) ** 2) + ((self.y - other_y) ** 2))
         return result
 
 
