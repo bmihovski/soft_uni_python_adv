@@ -1,30 +1,30 @@
 class Vet:
     space = 5
-    clinic_animals = list()
+    animals = list()
 
-    def __init__(self, doctor_name):
-        self.doctor_name = doctor_name
-        self.doctor_animals = list()
+    def __init__(self, name):
+        self.name = name
+        self.animals = list()
 
     def register_animal(self, animal_name: str):
-        if len(self.clinic_animals) < self.space:
-            self.doctor_animals.append(animal_name)
-            self.clinic_animals.append(animal_name)
-            return f"{animal_name} registered in the clinic"
-        else:
-            return f"Not enough space"
+        if len(Vet.animals) == Vet.space:
+            return "Not enough space"
+        self.animals.append(animal_name)
+        Vet.animals.append(animal_name)
+        return f"{animal_name} registered in the clinic"
 
     def unregister_animal(self, animal_name: str):
-        if animal_name in self.clinic_animals:
-            self.clinic_animals.remove(animal_name)
-            self.doctor_animals.remove(animal_name)
-            return f"{animal_name} unregistered successfully"
-        else:
+        if animal_name not in self.animals:
             return f"{animal_name} not in the clinic"
+        Vet.animals.remove(animal_name)
+        self.animals.remove(animal_name)
+        return f"{animal_name} unregistered successfully"
 
     def info(self):
-        return f"{self.doctor_name} has {len(self.doctor_animals)} animals. {self.space - len(self.clinic_animals)}" \
-               f" space left in the clinic"
+        animal_count = len(self.animals)
+        left_space_in_the_clinic = self.space - len(self.animals)
+        return f"{self.name} has {animal_count} animals. {left_space_in_the_clinic}" \
+               f" space left in clinic"
 
 
 peter: Vet = Vet("Peter")
@@ -34,7 +34,6 @@ print(george.register_animal("Cory"))
 print(peter.register_animal("Fishy"))
 print(peter.register_animal("Bobby"))
 print(george.register_animal("Kay"))
-print(george.register_animal("Pencho"))
 print(george.unregister_animal("Cory"))
 print(peter.register_animal("Silky"))
 print(peter.unregister_animal("Molly"))
