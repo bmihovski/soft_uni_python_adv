@@ -86,9 +86,9 @@ class Zoo:
         self.workers = list()
 
     def add_animal(self, animal: object, price: int):
-        if self.__animal_capacity > 0 and self.__budget == 0:
+        if self.__animal_capacity > 0 and self.__budget - price <= 0:
             return "Not enough budget"
-        if self.__animal_capacity == 0:
+        if self.__animal_capacity <= 0:
             return "Not enough space for animal"
         self.animals.append(animal)
         self.__budget -= price
@@ -96,30 +96,30 @@ class Zoo:
         return f"{animal.name} the {animal.__class__.__name__} added to the zoo"
 
     def hire_worker(self, worker: object):
-        if self.__workers_capacity == 0:
+        if self.__workers_capacity <= 0:
             return "Not enough space for worker"
         self.workers.append(worker)
         self.__workers_capacity -= 1
         return f"{worker.name} the {worker.__class__.__name__} hired successfully"
 
     def fire_worker(self, worker_name: str):
-        __worker_to_fire = list(filter(lambda worker_to_check: worker_to_check.name != worker_name, self.workers))
-        if len(__worker_to_fire) == len(self.workers):
+        __workers_to_stay = list(filter(lambda worker_to_check: worker_to_check.name != worker_name, self.workers))
+        if len(__workers_to_stay) == len(self.workers):
             return f"There is no {worker_name} in the zoo"
-        self.workers = __worker_to_fire
+        self.workers = __workers_to_stay
         self.__workers_capacity += 1
         return f"{worker_name} fired successfully"
 
     def pay_workers(self):
         __salaries_to_pay = reduce(lambda acc, hire: acc + hire.salary, self.workers, 0)
-        if self.__budget - __salaries_to_pay < 0:
+        if self.__budget - __salaries_to_pay <= 0:
             return "You have no budget to pay your workers. They are unhappy"
         self.__budget -= __salaries_to_pay
         return f"You payed your workers. They are happy. Budget left: {self.__budget}"
 
     def tend_animals(self):
         __total_tend_cost = reduce(lambda acc, animal_to_tend: acc + animal_to_tend.get_need(), self.animals, 0)
-        if self.__budget - __total_tend_cost < 0:
+        if self.__budget - __total_tend_cost <= 0:
             return "You have no budget to tend the animals. They are unhappy."
         self.__budget -= __total_tend_cost
         return f"You tended all the animals. They are happy. Budget left: {self.__budget}"
@@ -128,9 +128,12 @@ class Zoo:
         self.__budget += amount
 
     def animals_status(self):
-        __lions = list(filter(lambda animal_to_check: animal_to_check.__class__.__name__ == "Lion", self.animals))
-        __tigers = list(filter(lambda animal_to_check: animal_to_check.__class__.__name__ == "Tiger", self.animals))
-        __cheetahs = list(filter(lambda animal_to_check: animal_to_check.__class__.__name__ == "Cheetah", self.animals))
+        def __is_animal_per_type(animal_type: str):
+            return lambda animal_to_check: animal_to_check.__class__.__name__ == animal_type
+
+        __lions = list(filter(__is_animal_per_type("Lion"), self.animals))
+        __tigers = list(filter(__is_animal_per_type("Tiger"), self.animals))
+        __cheetahs = list(filter(__is_animal_per_type("Cheetah"), self.animals))
         __total_animals_count = f"You have {len(self.animals)} animals \n"
         __total_lions = f"----- {len(__lions)} Lions:\n"
         __each_lion = "\n".join([lion.__repr__() for lion in __lions])
@@ -143,11 +146,13 @@ class Zoo:
                __each_tiger + __total_cheetahs + __each_cheetahs
 
     def workers_status(self):
-        __keepers = list(filter(lambda animal_to_check: animal_to_check.__class__.__name__ == "Keeper", self.workers))
-        __caretakers = list(filter(lambda animal_to_check: animal_to_check.__class__.__name__ == "Caretaker",
-                                   self.workers))
-        __vets = list(filter(lambda animal_to_check: animal_to_check.__class__.__name__ == "Vet", self.workers))
-        __total_workers_count = f"\nYou have {len(self.workers)} workers\n"
+        def __is_worker_per_position(worker_position: str):
+            return lambda animal_to_check: animal_to_check.__class__.__name__ == worker_position
+
+        __keepers = list(filter(__is_worker_per_position("Keeper"), self.workers))
+        __caretakers = list(filter(__is_worker_per_position("Caretaker"), self.workers))
+        __vets = list(filter(__is_worker_per_position("Vet"), self.workers))
+        __total_workers_count = f"You have {len(self.workers)} workers\n"
         __total_keepers = f"----- {len(__keepers)} Keepers:\n"
         __each_keeper = "\n".join([keeper.__repr__() for keeper in __keepers])
         __total_caretakers = f"\n----- {len(__caretakers)} Caretakers:\n"
@@ -155,7 +160,7 @@ class Zoo:
         __total_vets = f"\n----- {len(__vets)} Vets:\n"
         __each_vet = "\n".join([vet.__repr__() for vet in __vets])
 
-        return __total_workers_count + __total_keepers + __each_keeper + __total_caretakers + __each_caretaker +\
+        return __total_workers_count + __total_keepers + __each_keeper + __total_caretakers + __each_caretaker + \
                __total_vets + __each_vet
 
 
