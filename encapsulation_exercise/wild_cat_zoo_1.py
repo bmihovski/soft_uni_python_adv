@@ -127,41 +127,39 @@ class Zoo:
     def profit(self, amount: int):
         self.__budget += amount
 
+    @staticmethod
+    def __is_type(type_to_check: str):
+        return lambda type_checked: type_checked.__class__.__name__ == type_to_check
+
+    @staticmethod
+    def __generate_status(types: list):
+        results = list()
+        total_types = f"----- {len(types)} {types[0].__class__.__name__}s:"
+        results.append(total_types)
+        for each_type in types:
+            each_type = each_type.__repr__()
+            results.append(each_type)
+        return results
+
     def animals_status(self):
-        def __is_animal_per_type(animal_type: str):
-            return lambda animal_to_check: animal_to_check.__class__.__name__ == animal_type
-
-        __lions = list(filter(__is_animal_per_type("Lion"), self.animals))
-        __tigers = list(filter(__is_animal_per_type("Tiger"), self.animals))
-        __cheetahs = list(filter(__is_animal_per_type("Cheetah"), self.animals))
-        __total_animals_count = f"You have {len(self.animals)} animals \n"
-        __total_lions = f"----- {len(__lions)} Lions:\n"
-        __each_lion = "\n".join([lion.__repr__() for lion in __lions])
-        __total_tigers = f"\n----- {len(__tigers)} Tigers:\n"
-        __each_tiger = "\n".join([tiger.__repr__() for tiger in __tigers])
-        __total_cheetahs = f"\n----- {len(__cheetahs)} Cheetahs:\n"
-        __each_cheetahs = "\n".join([cheetah.__repr__() for cheetah in __cheetahs])
-
-        return __total_animals_count + __total_lions + __each_lion + __total_tigers + \
-               __each_tiger + __total_cheetahs + __each_cheetahs
+        __lions = list(filter(self.__is_type("Lion"), self.animals))
+        __tigers = list(filter(self.__is_type("Tiger"), self.animals))
+        __cheetahs = list(filter(self.__is_type("Cheetah"), self.animals))
+        __total_animals_count = f"You have {len(self.animals)} animals "
+        __lion_results = Zoo.__generate_status(__lions)
+        __tiger_results = Zoo.__generate_status(__tigers)
+        __cheetah_results = Zoo.__generate_status(__cheetahs)
+        return "\n".join([__total_animals_count, *__lion_results, *__tiger_results, *__cheetah_results])
 
     def workers_status(self):
-        def __is_worker_per_position(worker_position: str):
-            return lambda animal_to_check: animal_to_check.__class__.__name__ == worker_position
-
-        __keepers = list(filter(__is_worker_per_position("Keeper"), self.workers))
-        __caretakers = list(filter(__is_worker_per_position("Caretaker"), self.workers))
-        __vets = list(filter(__is_worker_per_position("Vet"), self.workers))
-        __total_workers_count = f"You have {len(self.workers)} workers\n"
-        __total_keepers = f"----- {len(__keepers)} Keepers:\n"
-        __each_keeper = "\n".join([keeper.__repr__() for keeper in __keepers])
-        __total_caretakers = f"\n----- {len(__caretakers)} Caretakers:\n"
-        __each_caretaker = "\n".join([caretaker.__repr__() for caretaker in __caretakers])
-        __total_vets = f"\n----- {len(__vets)} Vets:\n"
-        __each_vet = "\n".join([vet.__repr__() for vet in __vets])
-
-        return __total_workers_count + __total_keepers + __each_keeper + __total_caretakers + __each_caretaker + \
-               __total_vets + __each_vet
+        __keepers = list(filter(self.__is_type("Keeper"), self.workers))
+        __caretakers = list(filter(self.__is_type("Caretaker"), self.workers))
+        __vets = list(filter(self.__is_type("Vet"), self.workers))
+        __total_workers_count = f"You have {len(self.workers)} workers"
+        __keeper_results = Zoo.__generate_status(__keepers)
+        __caretaker_results = Zoo.__generate_status(__caretakers)
+        __vet_results = Zoo.__generate_status(__vets)
+        return "\n".join([__total_workers_count, *__keeper_results, *__caretaker_results, *__vet_results])
 
 
 zoo: Zoo = Zoo("Zootopia", 3000, 5, 8)
