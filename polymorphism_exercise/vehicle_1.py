@@ -17,7 +17,7 @@ class Vehicle(ABC):
 class Car(Vehicle):
     SUMMER_CONSUMPTION = .9
 
-    def __init__(self, fuel_quantity: int, fuel_consumption: float):
+    def __init__(self, fuel_quantity: int, fuel_consumption: int):
         self.fuel_quantity = fuel_quantity
         self.fuel_consumption = fuel_consumption
 
@@ -31,6 +31,26 @@ class Car(Vehicle):
     def refuel(self, amount: int):
         self.fuel_quantity += amount
 
+
+class Truck(Vehicle):
+    SUMMER_CONSUMPTION = 1.6
+
+    def __init__(self, fuel_quantity: int, fuel_consumption: int):
+        self.fuel_quantity = fuel_quantity
+        self.fuel_consumption = fuel_consumption
+
+    def drive(self, distance: int):
+        __summer_consumption = self.fuel_consumption + Truck.SUMMER_CONSUMPTION
+        __total_consumption = (distance * __summer_consumption)
+        if self.fuel_quantity - __total_consumption < 0:
+            return
+        self.fuel_quantity -= __total_consumption
+
+    def refuel(self, amount: int):
+        amount -= amount * 0.05
+        self.fuel_quantity += amount
+
+
 from unittest import TestCase
 
 
@@ -42,6 +62,16 @@ class CarTests(TestCase):
         self.assertEqual(2.299999999999997, car.fuel_quantity)
         car.refuel(10)
         self.assertEqual(12.299999999999997, car.fuel_quantity)
+
+
+class TruckTests(TestCase):
+
+    def test_truck(self):
+        truck: Truck = Truck(100, 15)
+        truck.drive(5)
+        self.assertEqual(17.0, truck.fuel_quantity)
+        truck.refuel(50)
+        self.assertEqual(64.5, truck.fuel_quantity)
 
 if __name__ == 'main':
     TestCase.main()
