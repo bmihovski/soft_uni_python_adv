@@ -3,6 +3,8 @@ from math import pi
 
 
 class Shapes(ABC):
+    def __init__(self):
+        pass
 
     @abstractmethod
     def calculate_area(self):
