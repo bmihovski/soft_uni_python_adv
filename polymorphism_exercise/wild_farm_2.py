@@ -29,6 +29,11 @@ class Fruit(Food):
         Food.__init__(self, quantity)
 
 
+class Seeds(Food):
+    def __init__(self, quantity: int):
+        Food.__init__(self, quantity)
+
+
 class Animal(ABC):
     def __init__(self, name: str, weight: float, food_eaten=0):
         self.name = name
@@ -59,18 +64,26 @@ class Animal(ABC):
     def feed(self, kind: object):
         pass
 
+    @abstractmethod
+    def make_sound(self):
+        pass
+
 
 class Bird(Animal, ABC):
     def __init__(self, name: str, wing_size: float, weight: float):
         Animal.__init__(self, name, weight)
         self.wing_size = wing_size
 
+    @property
+    def wing_size(self):
+        return self.__wing_size
+
+    @wing_size.setter
+    def wing_size(self, size: float):
+        self.__wing_size = size
+
     def __repr__(self):
         return f"{self.__class__.__name__} [{self.name}, {self.wing_size}, {self.weight}, {self.food_eaten}]"
-
-    @abstractmethod
-    def make_sound(self):
-        pass
 
 
 class Owl(Bird):
@@ -104,6 +117,91 @@ class Hen(Bird):
         self.weight += kind.quantity * self.__weight_increase
 
 
+class Mammal(Animal, ABC):
+    def __init__(self, name: str, weight: float, living_region: str):
+        Animal.__init__(self, name, weight)
+        self.living_region = living_region
+
+    @property
+    def living_region(self):
+        return self.__living_region
+
+    @living_region.setter
+    def living_region(self, region: str):
+        self.__living_region = region
+
+    def __repr__(self):
+        return f"{self.__class__.__name__} [{self.name}, {self.weight}, {self.living_region}, {self.food_eaten}]"
+
+
+class Dog(Mammal):
+    __weight_increase = .4
+    __foods_cant_eat = ["Vegetable", "Fruit", "Seeds"]
+
+    def __init__(self, name: str, weight: float, living_region: str):
+        Mammal.__init__(self, name, weight, living_region)
+
+    def make_sound(self):
+        return "Woof!"
+
+    def feed(self, kind: object):
+        if kind.__class__.__name__ in self.__foods_cant_eat:
+            return f"{self.__class__.__name__} does not eat {kind.__class__.__name__}!"
+        self.food_eaten += kind.quantity
+        self.weight += kind.quantity * self.__weight_increase
+
+
+class Tiger(Mammal):
+    __weight_increase = 1.0
+    __foods_cant_eat = ["Vegetable", "Fruit", "Seeds"]
+
+    def __init__(self, name: str, weight: float, living_region: str):
+        Mammal.__init__(self, name, weight, living_region)
+
+    def make_sound(self):
+        return "ROAR!!!"
+
+    def feed(self, kind: object):
+        if kind.__class__.__name__ in self.__foods_cant_eat:
+            return f"{self.__class__.__name__} does not eat {kind.__class__.__name__}!"
+        self.food_eaten += kind.quantity
+        self.weight += kind.quantity * self.__weight_increase
+
+
+class Cat(Mammal):
+    __weight_increase = .3
+    __foods_cant_eat = ["Fruit", "Seeds"]
+
+    def __init__(self, name: str, weight: float, living_region: str):
+        Mammal.__init__(self, name, weight, living_region)
+
+    def make_sound(self):
+        return "Meow"
+
+    def feed(self, kind: object):
+        if kind.__class__.__name__ in self.__foods_cant_eat:
+            return f"{self.__class__.__name__} does not eat {kind.__class__.__name__}!"
+        self.food_eaten += kind.quantity
+        self.weight += kind.quantity * self.__weight_increase
+
+
+class Mouse(Mammal):
+    __weight_increase = .1
+    __foods_cant_eat = ["Meat", "Seeds"]
+
+    def __init__(self, name: str, weight: float, living_region: str):
+        Mammal.__init__(self, name, weight, living_region)
+
+    def make_sound(self):
+        return "Squeak"
+
+    def feed(self, kind: object):
+        if kind.__class__.__name__ in self.__foods_cant_eat:
+            return f"{self.__class__.__name__} does not eat {kind.__class__.__name__}!"
+        self.food_eaten += kind.quantity
+        self.weight += kind.quantity * self.__weight_increase
+
+
 from unittest import TestCase
 
 
@@ -133,6 +231,21 @@ class HenTests(TestCase):
         hen.feed(fruit)
         hen.feed(meat)
         self.assertEqual("Hen [Harry, 10, 13.15, 9]", str(hen))
+
+
+class DogTests(TestCase):
+
+    def test_dog(self):
+        sharo: Dog = Dog("Sharo", 10, "sofia")
+        self.assertEqual("Woof!", sharo.make_sound())
+        self.assertEqual("Dog [Sharo, 10, sofia, 0]", str(sharo))
+        salam: Meat = Meat(5)
+        sharo.feed(salam)
+        cashew: Seeds = Seeds(3)
+        self.assertEqual("Dog does not eat Seeds!", sharo.feed(cashew))
+        bones: Meat = Meat(4)
+        sharo.feed(bones)
+        self.assertEqual("Dog [Sharo, 13.6, sofia, 9]", str(sharo))
 
 if __name__ == 'main':
     TestCase.main()
