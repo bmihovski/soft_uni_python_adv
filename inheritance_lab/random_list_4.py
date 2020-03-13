@@ -1,4 +1,4 @@
-from random import choice
+import random
 
 
 class RandomList(list):
@@ -6,7 +6,7 @@ class RandomList(list):
         list.__init__(self)
 
     def get_random_element(self):
-        random_el = choice(self)
+        random_el = random.choice(self)
         self.remove(random_el)
         return random_el
 
