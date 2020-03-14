@@ -72,6 +72,3 @@ class TruckTests(TestCase):
         self.assertEqual(17.0, truck.fuel_quantity)
         truck.refuel(50)
         self.assertEqual(64.5, truck.fuel_quantity)
-
-if __name__ == 'main':
-    TestCase.main()
