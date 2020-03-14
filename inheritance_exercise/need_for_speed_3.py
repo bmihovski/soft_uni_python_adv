@@ -4,33 +4,32 @@ class Vehicle:
     def __init__(self, fuel: float, horse_power: int):
         self.fuel = fuel
         self.horse_power = horse_power
-        self.fuel_consumption = Vehicle.DEFAULT_FUEL_CONSUMPTION
+        self.fuel_consumption = self.DEFAULT_FUEL_CONSUMPTION
 
     def drive(self, kilometers: int):
         __fuel_consumption = kilometers * self.fuel_consumption
-        if self.fuel - __fuel_consumption > 0:
-            self.fuel -= kilometers * self.fuel_consumption
+        if self.fuel >= __fuel_consumption:
+            self.fuel -= __fuel_consumption
 
 
 class Car(Vehicle):
     DEFAULT_FUEL_CONSUMPTION = 3
 
     def __init__(self, fuel: float, horse_power: int):
-        Vehicle.__init__(self, fuel, horse_power)
+        super().__init__(fuel, horse_power)
         self.fuel_consumption = self.DEFAULT_FUEL_CONSUMPTION
 
 
 class FamilyCar(Car):
     def __init__(self, fuel: float, horse_power: int):
-        Car.__init__(self, fuel, horse_power)
-        self.fuel_consumption = Vehicle.DEFAULT_FUEL_CONSUMPTION
+        super().__init__(fuel, horse_power)
 
 
 class SportCar(Car):
     DEFAULT_FUEL_CONSUMPTION = 10
 
     def __init__(self, fuel: float, horse_power: int):
-        Vehicle.__init__(self, fuel, horse_power)
+        super().__init__(fuel, horse_power)
         self.fuel_consumption = self.DEFAULT_FUEL_CONSUMPTION
 
 
@@ -46,7 +45,7 @@ class RaceMotorcycle(Motorcycle):
     DEFAULT_FUEL_CONSUMPTION = 8
 
     def __init__(self, fuel: float, horse_power: int):
-        Motorcycle.__init__(self, fuel, horse_power)
+        super().__init__(fuel, horse_power)
         self.fuel_consumption = self.DEFAULT_FUEL_CONSUMPTION
 
 
@@ -76,8 +75,7 @@ class FamilyCarTests(TestCase):
     def test_zero(self):
         family_car_has_petrol: FamilyCar = FamilyCar(300, 443)
         family_car_has_petrol.drive(20)
-        family_car_has_petrol.drive(200)
-        self.assertEqual(25, family_car_has_petrol.fuel)
+        self.assertEqual(240, family_car_has_petrol.fuel)
 
 
 class SportCarTests(TestCase):
@@ -107,5 +105,3 @@ class RaceMotorcycleTests(TestCase):
         race_motorcycle_has_petrol.drive(344)
         self.assertEqual(1581, race_motorcycle_has_petrol.fuel)
 
-if __name__ == "main":
-    TestCase.main()

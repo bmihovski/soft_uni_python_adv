@@ -9,27 +9,27 @@ class Hero:
 
 class Elf(Hero):
     def __init__(self, username: str, level: int):
-        Hero.__init__(self, username, level)
+        super().__init__(username, level)
 
 
 class MuseElf(Elf):
     def __init__(self, username: str, level: int):
-        Elf.__init__(self, username, level)
+        super().__init__(username, level)
 
 
 class Wizard(Hero):
     def __init__(self, username: str, level: int):
-        Hero.__init__(self, username, level)
+        super().__init__(username, level)
 
 
 class DarkWizard(Wizard):
     def __init__(self, username: str, level: int):
-        Wizard.__init__(self, username, level)
+        super().__init__(username, level)
 
 
 class SoulMaster(DarkWizard):
     def __init__(self, username: str, level: int):
-        DarkWizard.__init__(self, username, level)
+        super().__init__(username, level)
 
 
 class Knight(Hero):
@@ -42,6 +42,7 @@ class DarkKnight(Knight):
 
 class BladeKnight(DarkKnight):
     pass
+
 
 from unittest import TestCase
 

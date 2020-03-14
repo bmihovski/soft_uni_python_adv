@@ -6,17 +6,14 @@ class Person:
 
 class Child(Person):
     def __init__(self, name, age):
-        Person.__init__(self, name, age)
+        super().__init__(name, age)
 
 
-import unittest
+from unittest import TestCase
 
 
-class ChildTests(unittest.TestCase):
+class ChildTests(TestCase):
     def test_zero(self):
         child: Child = Child("icho", 10)
         self.assertEqual("icho", child.name)
         self.assertEqual(10, child.age)
-
-if __name__ == '__main__':
-    unittest.main()
