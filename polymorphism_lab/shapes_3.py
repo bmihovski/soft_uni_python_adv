@@ -2,7 +2,7 @@ from abc import ABC, abstractmethod
 from math import pi
 
 
-class Shapes(ABC):
+class Shape(ABC):
     def __init__(self):
         pass
 
@@ -15,7 +15,7 @@ class Shapes(ABC):
         pass
 
 
-class Circle(Shapes):
+class Circle(Shape):
     def __init__(self, radius: int):
         self.__radius = radius
 
@@ -26,22 +26,22 @@ class Circle(Shapes):
         return 2 * pi * self.__radius
 
 
-class Rectangle(Shapes):
+class Rectangle(Shape):
     def __init__(self, height: int, width: int):
         self.__height = height
         self.__width = width
 
     def calculate_area(self):
-        return 2 * (self.__height + self.__width)
-
-    def calculate_perimeter(self):
         return self.__height * self.__width
 
+    def calculate_perimeter(self):
+        return 2 * (self.__height + self.__width)
 
-from unittest import TestCase
+
+import unittest
 
 
-class CircleTests(TestCase):
+class CircleTests(unittest.TestCase):
 
     def test_circle_area_perimeter(self):
         circle: Circle = Circle(5)
@@ -49,12 +49,12 @@ class CircleTests(TestCase):
         self.assertEqual(31.41592653589793, circle.calculate_perimeter())
 
 
-class RectangleTest(TestCase):
+class RectangleTest(unittest.TestCase):
 
     def test_rectangle_area_perimeter(self):
         rect: Rectangle = Rectangle(10, 20)
         self.assertEqual(60, rect.calculate_area())
-        self.assertEqual(200, rect.calculate_perimeter())
+        self.assertEqual(20, rect.calculate_perimeter())
 
 if __name__ == 'main':
-    TestCase.main()
+    unittest.main()

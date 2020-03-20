@@ -10,10 +10,10 @@ def execute(func, *args):
     return func(*args)
 
 
-from unittest import TestCase
+import unittest
 
 
-class ExecuteTests(TestCase):
+class ExecuteTests(unittest.TestCase):
 
     def test_single_arg(self):
         self.assertEqual("eee", execute(single_arg, "eee"))
@@ -23,4 +23,4 @@ class ExecuteTests(TestCase):
 
 
 if __name__ == 'main':
-    TestCase.main()
+    unittest.main()
