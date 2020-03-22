@@ -2,6 +2,7 @@ from abc import ABC, abstractmethod
 
 
 class Food(ABC):
+    @abstractmethod
     def __init__(self, quantity: int):
         self.quantity = quantity
 
@@ -16,29 +17,30 @@ class Food(ABC):
 
 class Vegetable(Food):
     def __init__(self, quantity: int):
-        Food.__init__(self, quantity)
+        super().__init__(quantity)
 
 
 class Meat(Food):
     def __init__(self, quantity: int):
-        Food.__init__(self, quantity)
+        super().__init__(quantity)
 
 
 class Fruit(Food):
     def __init__(self, quantity: int):
-        Food.__init__(self, quantity)
+        super().__init__(quantity)
 
 
-class Seeds(Food):
+class Seed(Food):
     def __init__(self, quantity: int):
-        Food.__init__(self, quantity)
+        super().__init__(quantity)
 
 
 class Animal(ABC):
-    def __init__(self, name: str, weight: float, food_eaten=0):
+    @abstractmethod
+    def __init__(self, name: str, weight: float):
         self.name = name
         self.weight = weight
-        self.food_eaten = food_eaten
+        self.food_eaten = 0
 
     @property
     def food_eaten(self):
@@ -70,8 +72,8 @@ class Animal(ABC):
 
 
 class Bird(Animal, ABC):
-    def __init__(self, name: str, wing_size: float, weight: float):
-        Animal.__init__(self, name, weight)
+    def __init__(self, name: str, weight: float, wing_size: float):
+        super().__init__(name, weight)
         self.wing_size = wing_size
 
     @property
@@ -87,11 +89,11 @@ class Bird(Animal, ABC):
 
 
 class Owl(Bird):
-    __foods_cant_eat = ["Vegetable", "Fruit", "Seeds"]
+    __foods_cant_eat = ["Vegetable", "Fruit", "Seed"]
     __weight_increase = .25
 
     def __init__(self, name: str, wing_size: float, weight: float):
-        Bird.__init__(self, name, wing_size, weight)
+        super().__init__(name, wing_size, weight)
 
     def make_sound(self):
         return "Hoot Hoot"
@@ -107,7 +109,7 @@ class Hen(Bird):
     __weight_increase = .35
 
     def __init__(self, name: str, wing_size: float, weight: float):
-        Bird.__init__(self, name, wing_size, weight)
+        super().__init__(name, wing_size, weight)
 
     def make_sound(self):
         return "Cluck"
@@ -119,7 +121,7 @@ class Hen(Bird):
 
 class Mammal(Animal, ABC):
     def __init__(self, name: str, weight: float, living_region: str):
-        Animal.__init__(self, name, weight)
+        super().__init__(name, weight)
         self.living_region = living_region
 
     @property
@@ -136,10 +138,10 @@ class Mammal(Animal, ABC):
 
 class Dog(Mammal):
     __weight_increase = .4
-    __foods_cant_eat = ["Vegetable", "Fruit", "Seeds"]
+    __foods_cant_eat = ["Vegetable", "Fruit", "Seed"]
 
     def __init__(self, name: str, weight: float, living_region: str):
-        Mammal.__init__(self, name, weight, living_region)
+        super().__init__(name, weight, living_region)
 
     def make_sound(self):
         return "Woof!"
@@ -153,10 +155,10 @@ class Dog(Mammal):
 
 class Tiger(Mammal):
     __weight_increase = 1.0
-    __foods_cant_eat = ["Vegetable", "Fruit", "Seeds"]
+    __foods_cant_eat = ["Vegetable", "Fruit", "Seed"]
 
     def __init__(self, name: str, weight: float, living_region: str):
-        Mammal.__init__(self, name, weight, living_region)
+        super().__init__(name, weight, living_region)
 
     def make_sound(self):
         return "ROAR!!!"
@@ -170,10 +172,10 @@ class Tiger(Mammal):
 
 class Cat(Mammal):
     __weight_increase = .3
-    __foods_cant_eat = ["Fruit", "Seeds"]
+    __foods_cant_eat = ["Fruit", "Seed"]
 
     def __init__(self, name: str, weight: float, living_region: str):
-        Mammal.__init__(self, name, weight, living_region)
+        super().__init__(name, weight, living_region)
 
     def make_sound(self):
         return "Meow"
@@ -187,10 +189,10 @@ class Cat(Mammal):
 
 class Mouse(Mammal):
     __weight_increase = .1
-    __foods_cant_eat = ["Meat", "Seeds"]
+    __foods_cant_eat = ["Meat", "Seed"]
 
     def __init__(self, name: str, weight: float, living_region: str):
-        Mammal.__init__(self, name, weight, living_region)
+        super().__init__(name, weight, living_region)
 
     def make_sound(self):
         return "Squeak"
@@ -201,11 +203,10 @@ class Mouse(Mammal):
         self.food_eaten += kind.quantity
         self.weight += kind.quantity * self.__weight_increase
 
+import unittest
 
-from unittest import TestCase
 
-
-class OwlTests(TestCase):
+class OwlTests(unittest.TestCase):
 
     def test_owl(self):
         owl: Owl = Owl("Pip", 10, 10)
@@ -218,13 +219,13 @@ class OwlTests(TestCase):
         self.assertEqual("Owl [Pip, 10, 11.0, 4]", str(owl))
 
 
-class HenTests(TestCase):
+class HenTests(unittest.TestCase):
 
     def test_hen(self):
         hen: Hen = Hen("Harry", 10, 10)
         veg: Vegetable = Vegetable(3)
         fruit: Fruit = Fruit(5)
-        meat = Meat(1)
+        meat: Meat = Meat(1)
         self.assertEqual("Hen [Harry, 10, 10, 0]", str(hen))
         self.assertEqual("Cluck", hen.make_sound())
         hen.feed(veg)
@@ -233,7 +234,7 @@ class HenTests(TestCase):
         self.assertEqual("Hen [Harry, 10, 13.15, 9]", str(hen))
 
 
-class DogTests(TestCase):
+class DogTests(unittest.TestCase):
 
     def test_dog(self):
         sharo: Dog = Dog("Sharo", 10, "sofia")
@@ -241,11 +242,11 @@ class DogTests(TestCase):
         self.assertEqual("Dog [Sharo, 10, sofia, 0]", str(sharo))
         salam: Meat = Meat(5)
         sharo.feed(salam)
-        cashew: Seeds = Seeds(3)
-        self.assertEqual("Dog does not eat Seeds!", sharo.feed(cashew))
+        cashew: Seed = Seed(3)
+        self.assertEqual("Dog does not eat Seed!", sharo.feed(cashew))
         bones: Meat = Meat(4)
         sharo.feed(bones)
         self.assertEqual("Dog [Sharo, 13.6, sofia, 9]", str(sharo))
 
 if __name__ == 'main':
-    TestCase.main()
+    unittest.main()
