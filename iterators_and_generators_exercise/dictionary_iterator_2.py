@@ -3,12 +3,13 @@ class dictionary_iter:
 
     def __init__(self, input_dict: dict):
         self.input_dict = input_dict
+        self.dict_len = len(self.input_dict)
 
     def __iter__(self):
         return self
 
     def __next__(self):
-        if self.__counter == len(self.input_dict):
+        if self.__counter == self.dict_len:
             raise StopIteration
         else:
             self.__counter += 1

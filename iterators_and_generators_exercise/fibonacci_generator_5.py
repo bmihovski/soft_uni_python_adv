@@ -1,17 +1,11 @@
 def fibonacci():
-    a, b = 0, 1
+    first_num = 0
+    second_num = 1
+    yield first_num
+    yield second_num
+
     while True:
-        yield a
-        a, b = b, a + b
-
-
-from unittest import TestCase
-
-
-class FibGenTests(TestCase):
-    def test_zero(self):
-        results = list()
-        generator = fibonacci()
-        for i in range(5):
-            results.append(next(generator))
-        self.assertEqual([0, 1, 1, 2, 3], results)
+        next_number = first_num + second_num
+        yield next_number
+        first_num = second_num
+        second_num = next_number
