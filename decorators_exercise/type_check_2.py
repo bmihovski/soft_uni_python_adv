@@ -8,6 +8,11 @@ def type_check(arg_type):
         return wrapper
     return decorator
 
+@type_check(int)
+def times2(num):
+    return num*2
+
+print(times2(2))
 
 from unittest import TestCase
 

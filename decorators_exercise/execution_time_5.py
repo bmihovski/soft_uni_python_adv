@@ -1,11 +1,11 @@
-from time import time
+import time
 
 
 def exec_time(func):
     def wrapper(*args, **kwargs):
-        start_time = time()
+        start_time = time.time()
         func(*args, **kwargs)
-        stop_time = time()
+        stop_time = time.time()
         time_difference = stop_time - start_time
         return time_difference
     return wrapper
