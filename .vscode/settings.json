@@ -2,12 +2,13 @@
     "python.testing.unittestArgs": [
         "-v",
         "-s",
-        "./polymorphism_exercise",
+        "./unit_testing_exercise",
         "-p",
         "test_*.py"
     ],
     "python.testing.pytestEnabled": false,
     "python.testing.nosetestsEnabled": false,
     "python.testing.unittestEnabled": true,
-    "python.formatting.provider": "black"
+    "python.formatting.provider": "black",
+    "python.pythonPath": "/usr/bin/python3.6"
 }

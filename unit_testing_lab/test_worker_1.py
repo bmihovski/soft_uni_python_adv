@@ -45,7 +45,7 @@ class WorkerTests(unittest.TestCase):
                          msg="When rest worker energy increased.")
 
     def test_energy_neg(self):
-        self.worker_under_test.energy = -1
+        self.worker_under_test.energy = 0
         with self.assertRaises(Exception) as em:
             self.worker_under_test.work()
         worker_exception = em.exception
@@ -67,5 +67,5 @@ class WorkerTests(unittest.TestCase):
                          msg="Correct info displayed when worker worked")
 
 
-if __name__ == 'main':
+if __name__ == '__main__':
     unittest.main()

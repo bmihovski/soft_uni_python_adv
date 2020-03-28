@@ -10,9 +10,7 @@
             "request": "launch",
             "program": "${file}",
             "console": "integratedTerminal",
-            "env": {
-                "PYTHONPATH": "polymorphism_exercise:iterators_and_generators_exercise"
-            }
+            "env": {"PYTHONPATH": "${workspaceRoot}"},
         }
     ]
 }

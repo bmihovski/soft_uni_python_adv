@@ -1,34 +1,6 @@
-class IntegerList:
-    def __init__(self, *args):
-        self.__data = []
-        for x in args:
-            if type(x) == int:
-                self.__data.append(x)
-
-    def get_data(self):
-        return self.__data
-
-    def add(self, element):
-        if not type(element) == int:
-            raise ValueError("Element is not Integer")
-        self.get_data().append(element)
-        return self.get_data()
-
-    def remove_index(self, index):
-        if index >= len(self.get_data()):
-            raise IndexError("Index is out of range")
-        a = self.get_data()[index]
-        del self.get_data()[index]
-        return a
-
-    def get(self, index):
-        if index >= len(self.get_data()):
-            raise IndexError("Index is out of range")
-        return self.get_data()[index]
-
-
 import unittest
 
+from project.list import IntegerList
 
 class IntegerListTests(unittest.TestCase):
     _INITIAL_VALUE = 3
@@ -85,3 +57,6 @@ class IntegerListTests(unittest.TestCase):
         non_existent_index_exception = ne.exception
         self.assertEqual("Index is out of range", non_existent_index_exception.__str__(),
                          msg="Element with not existent index can not be called")
+
+if __name__ == '__main__':
+    unittest.main()

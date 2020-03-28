@@ -130,3 +130,6 @@ class IntegerListTests(unittest.TestCase):
     def test_get_element_index(self):
         self.assertEqual(self._INITIAL_INDEX, self.integers_list.get_index(self._INITIAL_VALUE),
                          msg="You should receive correct index of the element")
+
+    if __name__ == '__main__':
+        unittest.main()

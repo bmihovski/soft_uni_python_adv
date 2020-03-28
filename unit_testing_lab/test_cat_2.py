@@ -63,5 +63,5 @@ class CatTests(unittest.TestCase):
         self.assertEqual(self._IS_SLEEPY, self.cat_under_test.sleepy, msg="When cat sleep is not sleepy")
 
 
-if __name__ == 'main':
+if __name__ == '__main__':
     unittest.main()

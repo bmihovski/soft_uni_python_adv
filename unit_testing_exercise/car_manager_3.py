@@ -210,3 +210,6 @@ class CarTests(unittest.TestCase):
         not_enough_fuel_exception = nef.exception
         self.assertEqual("Not enough fuel to drive!", not_enough_fuel_exception.__str__(),
                          msg="You should have enough fuel to drive")
+
+if __name__ == '__main__':
+    unittest.main()
